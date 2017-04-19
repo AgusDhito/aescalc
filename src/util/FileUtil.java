@@ -23,9 +23,8 @@ public class FileUtil {
     return Paths.get(file.getAbsolutePath());
   }
 
-  public static String writeToFile(byte[] input) throws Exception {
-    Path output_path = Paths.get("cipher.txt");
+  public static void writeToFile(byte[] input, String file_name) throws Exception {
+    Path output_path = Paths.get(file_name);
     Files.write(output_path, input);
-    return output_path.toString();
   }
 }
