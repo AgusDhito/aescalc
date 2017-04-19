@@ -6,14 +6,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-public class TugasPemrograman {
+public class AESBackEnd {
 
-  public static void main(String[] args) {
-    String plain_path = "C:/Users/Acer/Desktop/cipher.txt";
-    String key_path = "C:/Users/Acer/Desktop/key.txt";
+  public static String start(String plain_path, String key_path, String command) {
     File input = new File(plain_path);
     File key = new File(key_path);
-    String command = "DECRYPT";
     CalculatorSpec spec = new CalculatorSpec();
     spec.setInputFile(input);
     spec.setKeyFile(key);
@@ -25,27 +22,31 @@ public class TugasPemrograman {
     try {
       byte[] input_bytes = FileUtil.readBytes(inputFile);
       byte[] key_bytes = FileUtil.readBytes(keyFile);
-      System.out.printf("Input bytes : %s\n", new String(input_bytes));
-      System.out.printf("Key bytes : %s\n", new String(key_bytes));
-      System.out.printf("Command : %s\n", spec.getCommand());
-      execute(input_bytes, key_bytes, spec.getCommand());
+      // System.out.printf("Input bytes : %s\n", new String(input_bytes));
+      // System.out.printf("Key bytes : %s\n", new String(key_bytes));
+      // System.out.printf("Command : %s\n", spec.getCommand());
+      return execute(input_bytes, key_bytes, spec.getCommand());
     } catch (Exception e) {
         e.printStackTrace();
     }
 
+    return "something Wrong";
   }
-  private static void execute(byte[] input, byte[] key, String cmd) throws Exception{
+  private static String execute(byte[] input, byte[] key, String cmd) throws Exception{
     Aes aes = new Aes();
+    String ans = "";
     switch(cmd) {
         case "ENCRYPT":
         byte[] cipher_text = aes.encrypt(input, key);
-        FileUtil.writeToFile(cipher_text);
+        ans = FileUtil.writeToFile(cipher_text);
         break;
 
         case "DECRYPT":
         byte[] plain_text = aes.decrypt(input, key);
-        FileUtil.writeToFile(plain_text);
+        ans = FileUtil.writeToFile(plain_text);
         break;
     }
+
+    return ans;
   }
 }
